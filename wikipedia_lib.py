@@ -1,8 +1,11 @@
 import wikipedia
 import re
+import random
 
-wiki = wikipedia.page(title="Microsoft", auto_suggest=False)
-# print(wikipedia.search("Apple"))
+company = "Microsoft"
+company_title = wikipedia.search(company + " company")[0]
+print(company_title)
+wiki = wikipedia.page(title=company_title, auto_suggest=False)
 
 text = wiki.content
 split_lines = (text.split("\n"))
@@ -47,3 +50,63 @@ for line in split_lines:
 
 print(len(positive_sentences))
 print(len(negative_sentences))
+
+random.shuffle(positive_sentences)
+random.shuffle(negative_sentences)
+
+def startswithcompany(string):
+  return string.lower().startswith(company.lower()) or string.lower().startswith(company_title.lower()) or string.lower().startswith("the company")
+
+if len(negative_sentences) > len(positive_sentences):
+  pos_company_count = sum(1 for string in positive_sentences if startswithcompany(string))
+  neg_company_count = sum(1 for string in negative_sentences if startswithcompany(string))
+  while len(negative_sentences) > len(positive_sentences):
+    if neg_company_count > pos_company_count:
+      for i, sentence in enumerate(negative_sentences):
+        if startswithcompany(sentence):
+          del negative_sentences[i]
+          neg_company_count -= 1
+          break
+        if i == len(negative_sentences) - 1:
+          amtToRemove = len(negative_sentences) - len(positive_sentences)
+          negative_sentences[:-amtToRemove]
+          break
+    else:
+      for i, sentence in enumerate(negative_sentences):
+        if not startswithcompany(sentence):
+          del negative_sentences[i]
+          break
+        if i == len(negative_sentences) - 1:
+          amtToRemove = len(negative_sentences) - len(positive_sentences)
+          negative_sentences[:-amtToRemove]
+          break
+elif len(positive_sentences) > len(negative_sentences):
+  pos_company_count = sum(1 for string in positive_sentences if startswithcompany(string))
+  neg_company_count = sum(1 for string in negative_sentences if startswithcompany(string))
+  print(pos_company_count, neg_company_count)
+  while len(positive_sentences) > len(negative_sentences):
+    if pos_company_count > neg_company_count:
+      for i, sentence in enumerate(positive_sentences):
+        if startswithcompany(sentence):
+          del positive_sentences[i]
+          pos_company_count -= 1
+          break
+        if i == len(positive_sentences) - 1:
+          amtToRemove = len(positive_sentences) - len(negative_sentences)
+          positive_sentences[:-amtToRemove]
+          break
+    else:
+      for i, sentence in enumerate(positive_sentences):
+        if not startswithcompany(sentence):
+          del positive_sentences[i]
+          break
+        if i == len(positive_sentences) - 1:
+          amtToRemove = len(positive_sentences) - len(negative_sentences)
+          positive_sentences[:-amtToRemove]
+          break
+
+
+print(len(positive_sentences))
+print(sum(1 for string in positive_sentences if startswithcompany(string)))
+print(len(negative_sentences))
+print(sum(1 for string in negative_sentences if startswithcompany(string)))
