@@ -24,13 +24,13 @@ def lstriptrash(string):
     string = string[1:]
   return string
 
+date_pattern = r'^(On|In|By|As of)\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{4})'
+
 def getDataFromCompany(company):
   wiki = getWikiPage(company)
   text = wiki.content
   split_lines = (text.split("\n"))
 
-  event_section_keywords = ["history", "creation", "leadership", "corporate", "acquisitions", "growth", "finance", "financial", "lawsuits", "litigation", "legal"]
-  date_pattern = r'^(On|In|By|As of)\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{4})'
   positive_sentences = []
   negative_sentences = []
 
