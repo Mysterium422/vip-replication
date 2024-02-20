@@ -126,14 +126,14 @@ def getDataFromCompany(company):
   return pos_test, pos_train, neg_test, neg_train
 
 def main():
-  companies = readFileLines("companies.txt")
+  companies = readFileLines("S_P_Wiki/companies.txt")
   for idx, company in enumerate(companies[:50], start=0):
     print(idx)
     pos_test, pos_train, neg_test, neg_train = getDataFromCompany(company)
-    writeFileLines("positive_test.txt", pos_test, False)
-    writeFileLines("positive_train.txt", pos_train, False)
-    writeFileLines("negative_test.txt", neg_test, False)
-    writeFileLines("negative_train.txt", neg_train, False)
+    writeFileLines("S_P_Wiki/positive_test.txt", pos_test, False)
+    writeFileLines("S_P_Wiki/positive_train.txt", pos_train, False)
+    writeFileLines("S_P_Wiki/negative_test.txt", neg_test, False)
+    writeFileLines("S_P_Wiki/negative_train.txt", neg_train, False)
     
 if __name__ == "__main__":
     main()
